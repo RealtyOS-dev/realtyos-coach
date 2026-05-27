@@ -42,7 +42,7 @@ SITUACIÓN ACTUAL: ${trigger || "Revisión general del día"}
 
   try {
     const message = await client.messages.create({
-      model: "claude-3-5-sonnet-20241022",
+      model: model: "claude-haiku-4-5-20251115",
       max_tokens: 300,
       system: [
         {
