@@ -36,21 +36,15 @@ module.exports = async function handler(req, res) {
 AGENTE: ${agente.nombre || "Agente"}
 META MENSUAL: ${agente.meta || "No definida"}
 DEALS ACTIVOS: ${JSON.stringify(deals || [], null, 2)}
-MÉTRICAS DE LA SEMANA: ${JSON.stringify(metricas || {}, null, 2)}
-SITUACIÓN ACTUAL: ${trigger || "Revisión general del día"}
+METRICAS: ${JSON.stringify(metricas || {}, null, 2)}
+SITUACION ACTUAL: ${trigger || "Revision general del dia"}
   `.trim();
 
   try {
     const message = await client.messages.create({
-      model: model: "claude-haiku-4-5-20251115",
+      model: "claude-3-haiku-20240307",
       max_tokens: 300,
-      system: [
-        {
-          type: "text",
-          text: SYSTEM_PROMPT,
-          cache_control: { type: "ephemeral" },
-        },
-      ],
+      system: SYSTEM_PROMPT,
       messages: [
         {
           role: "user",
@@ -61,7 +55,6 @@ SITUACIÓN ACTUAL: ${trigger || "Revisión general del día"}
 
     return res.status(200).json({
       coaching: message.content[0].text,
-      tokens_usados: message.usage,
     });
 
   } catch (error) {
